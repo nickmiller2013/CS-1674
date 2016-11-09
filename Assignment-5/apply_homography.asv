@@ -1,0 +1,9 @@
+function [p2] = apply_homography(p1, H)
+
+p1(3) = 1;
+p = p1'
+
+applied = p1*H
+
+
+p2 = applied

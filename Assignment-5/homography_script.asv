@@ -1,0 +1,15 @@
+im1 = imread('keble1.png');
+im2 = imread('keble2.png');
+
+figure
+imshow(im1)
+impixelinfo;
+
+
+figure
+imshow(im2)
+impixelinfo;
+
+%pixel -> (keble1.png, keble2.png)
+%pixel1 ->((183,140),(280,128))
+%pixel2 ->
