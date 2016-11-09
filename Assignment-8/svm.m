@@ -1,3 +1,8 @@
+%Nick Miller
+%CS 1674
+%Assignment 8
+
+
 clc;
 clear all;
 
@@ -18,3 +23,7 @@ upper = (set_B_animals(:) == labels(:));
 upper = sum(upper);
 
 svmAccuracy = upper/lower;
+
+svmAccuracy= svmAccuracy*100;
+output = strcat('The SVM average accuracy is:',num2str(svmAccuracy),'%')
+

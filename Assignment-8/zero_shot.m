@@ -1,3 +1,7 @@
+%Nick Miller
+%CS 1674
+%Assignment 8
+
 clc;
 clear all;
 
@@ -9,7 +13,7 @@ load('zero_shot_setup.mat');
 
 [rows, cols] = size(set_B_attributes);
 
-[rows2, cols2] = size(M);
+[rows2, cols2] = size(test_ids);
 
 for i = (1:1:rows)
     %class = attr_probs{i,1};
@@ -38,10 +42,18 @@ end
 
 [~, ind] = max(score, [], 2); 
 
-[x,y] = size(ind);
+ind(:) = test_ids(ind(:));
+
+[lower,~] = size(ind);
 
 upper = (set_B_animals(:) == ind(:));
-%upper = sum(upper)
+upper = sum(upper);
+
+zeroAccuracy = upper/lower;
+
+zeroAccuracy = zeroAccuracy*100;
+output = strcat('The zero-shot average accuracy is:',num2str(zeroAccuracy),'%')
+
 
 
 
