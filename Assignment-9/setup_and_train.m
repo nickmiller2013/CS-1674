@@ -8,7 +8,7 @@ nfiles = length(posImagesFolder);
 for i =1:nfiles
     fname = posImagesFolder(i).name;
     curImage = imread(strcat(posImagesDir,fname));
-    posImages{i} = curImage;
+    posImages{i} = single(curImage);
     %imshow(curImage);
 end
 
@@ -44,8 +44,9 @@ for i =1:nfiles
 end
 
 cellSize = 8;
-hog = vl_hog(negImages, cellSize, 'verbose');
+for(i = 1: length(posImages))
+    posHog{i} = vl_hog(posImages{i}, cellSize, 'verbose');
+    negHog{i} = vl_hog(negImages{i}, cellSize, 'verbose');
+end
 
-
-
-%model = fitcecoc(X_train, Y_train);
+%model = fitcecoc(posHog{:}, negHog{:});
