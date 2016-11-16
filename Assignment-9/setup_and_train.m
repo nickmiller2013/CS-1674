@@ -1,6 +1,7 @@
-clear all;
-clc
+function model = setup_and_train();
+
 run('vlfeat-0.9.20/toolbox/vl_setup')
+
 posImagesDir = 'person_detection_training_data/pos/';
 posImagesFolder = dir('person_detection_training_data/pos/*png');
 nfiles = length(posImagesFolder);
@@ -8,7 +9,8 @@ nfiles = length(posImagesFolder);
 for i =1:nfiles
     fname = posImagesFolder(i).name;
     curImage = imread(strcat(posImagesDir,fname));
-    posImages{i} = single(curImage);
+    posImages{i,1} = single(curImage);
+    posImages{i,2} = 'pos';
     %imshow(curImage);
 end
 
@@ -39,14 +41,22 @@ for i =1:nfiles
     
     %imshow(resizeImage);
     imwrite(resizeImage,[outDir 'cropNeg' num2str(i) '.png'])
-    negImages{i} = single(resizeImage);
+    negImages{i,1} = single(resizeImage);
+    negImages{i,2} = 'neg';
     %imshow(curImage);
 end
 
 cellSize = 8;
-for(i = 1: length(posImages))
-    posHog{i} = vl_hog(posImages{i}, cellSize, 'verbose');
-    negHog{i} = vl_hog(negImages{i}, cellSize, 'verbose');
+for(i = 1:length(posImages))
+    imhog = vl_hog(posImages{i}, cellSize);
+    features(i,:) = imhog(:)';
+    labels{i} = posImages{i,2};
+end
+[x, y] = size(features);
+for(i = 1:length(negImages))
+    imhog = vl_hog(negImages{i}, cellSize);
+    features(i+x,:) = imhog(:)';
+    labels{i+x} = negImages{i,2};
 end
 
-%model = fitcecoc(posHog{:}, negHog{:});
+model = fitcecoc(features, labels);
