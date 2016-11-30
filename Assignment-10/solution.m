@@ -23,6 +23,8 @@ for i = 1:20
     end
 end
 
+'Created Features'
+
 [~,len] = size(features);
 
 p = randperm(len + 1);
@@ -44,6 +46,8 @@ for i = 1:length(train)
 end
 templateSVM('Standardize',1,'KernelFunction','linear');
 
+'Split the data'
+
 fc8_feature = cell2mat(train_set(1,:));
 fc7_feature = cell2mat(train_set(2,:));
 fc6_feature = cell2mat(train_set(3,:));
@@ -51,3 +55,35 @@ fc6_feature = cell2mat(train_set(3,:));
 fc8_svm = fitcecoc(fc8_feature',train_set(4,:)');
 fc7_svm = fitcecoc(fc7_feature',train_set(4,:)');
 fc6_svm = fitcecoc(fc6_feature',train_set(4,:)');
+
+'Trained the data'
+
+labels = {};
+for i = 1:length(test)
+    labels{1,i} = predict(fc8_svm,features{1,test(i)}');
+    labels{2,i} = predict(fc7_svm,features{2,test(i)}');
+    labels{3,i} = predict(fc6_svm,features{3,test(i)}');
+    labels{4,i} = features{4,test(i)};
+end
+
+fc8_count = 0;
+fc7_count = 0;
+fc6_count = 0;
+
+for i = 1: length(labels)
+    if strcmp(labels{1,i}(1,1),labels{4,i})
+        fc8_count = fc8_count+1;
+    end
+    if strcmp(labels{2,i}(1,1),labels{4,i})
+        fc7_count = fc7_count+1;
+    end
+    if strcmp(labels{3,i}(1,1),labels{4,i})
+        fc6_count = fc6_count+1;
+    end
+    p8_comp(i) = labels{1,i}(1,1);
+end
+accuracy_fc8 = fc8_count/length(labels)
+accuracy_fc7 = fc7_count/length(labels)
+accuracy_fc6 = fc6_count/length(labels)
+    
+[C,order] = confusionmat(p8_comp,labels(4,:))
