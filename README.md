@@ -1,1 +1,3 @@
 # CS-1674
+
+The first major part of the course will cover fundamental concepts such as image formation, image filtering, edge detection, texture description, feature extraction and matching, and grouping and fitting. A brief intro to machine learning will follow, in preparation for the second course chapter on visual recognition. We will study state of the art approaches in object and scene recognition, attribute-based description, human pose and activity recognition. We will also discuss a few topics from the most recent computer vision conferences, including recognition with deep convolutional neural networks, and interactions between vision and language. 
